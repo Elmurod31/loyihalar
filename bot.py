@@ -14,6 +14,9 @@ from handlers.Qrcode import Qrcode
 from handlers.Start import Start
 from handlers.username import username_router
 
+from aiogram.client.session.aiohttp import AiohttpSession
+session = AiohttpSession(proxy="http://proxy.server:3128")
+
 load_dotenv()
 
 TOKEN = os.getenv("BOT_TOKEN")
@@ -33,7 +36,8 @@ dp.include_router(Qrcode)
 
 
 async def main() -> None:
-    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    # bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    bot = Bot(token=TOKEN, session=session)
     await dp.start_polling(bot)
 
 
